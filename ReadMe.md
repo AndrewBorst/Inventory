@@ -1,7 +1,7 @@
 TODO: Add item 
 TODO: Search Inventory 
 
-=# Home Inventory Application. 
+# Home Inventory Application. 
 
 ## Overview
 This Blazor-based Home Inventory application allows users to catalog their belongings and assign them to specific locations within rooms. This README provides an overview of the project structure and key features.
