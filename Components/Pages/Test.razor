@@ -1,0 +1,10 @@
+﻿@page "/test"
+
+<h3>Test Component</h3>
+
+<input @bind="TestName" placeholder="Type here" />
+<p>Current name: @TestName</p>
+
+@code {
+    public string TestName { get; set; } = string.Empty;
+}
