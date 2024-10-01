@@ -10,8 +10,19 @@ namespace Inventory.Components.Pages
         // Inject ApplicationDbContext using [Inject] attribute
         [Inject]
         public ApplicationDbContext? DbContext { get; set; }
-        private InventoryItem _newItem = new();
+        private InventoryItem _newItem = new() { Quantity = 1};
         private string _errorMessage = string.Empty;
+        private List<Lookup> _locations = new();
+
+        protected override async Task OnInitializedAsync()
+        {
+            if (DbContext != null)
+            {
+                _locations = await DbContext.Lookups
+                    .Where(l => l.Type == "inventory-location")
+                    .ToListAsync();
+            }
+        }
         private async Task HandleValidSubmit()
         {
             if (DbContext == null)
@@ -27,6 +38,10 @@ namespace Inventory.Components.Pages
 
             DbContext.InventoryItems.Add(_newItem);
             await DbContext.SaveChangesAsync();
+
+            // Reset the form
+            _newItem = new InventoryItem();
+            StateHasChanged();
         }
     }
 }

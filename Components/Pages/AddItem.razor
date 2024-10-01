@@ -1,6 +1,5 @@
 ﻿@page "/add-item"
-@attribute [Authorize]
-@using Microsoft.AspNetCore.Authorization
+@rendermode InteractiveServer
 
 <PageTitle>Add Item</PageTitle>
 
@@ -15,6 +14,7 @@
         <InputText id="name" @bind-Value="_newItem.Name" class="form-control" />
         <ValidationMessage For="@(() => _newItem.Name)" />
     </div>
+    <p>Name: @_newItem.Name</p>
 
     <div class="form-group">
         <label for="description">Description:</label>
@@ -23,22 +23,23 @@
 
     <div class="form-group">
         <label for="location">Location:</label>
-        <InputText id="location" @bind-Value="_newItem.Location" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label for="quantity">Quantity:</label>
-        <InputNumber id="quantity" @bind-Value="_newItem.Quantity" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label for="value">Value:</label>
-        <InputNumber id="value" @bind-Value="_newItem.Value" class="form-control" />
+        <InputSelect id="location" @bind-Value="_newItem.Location" class="form-control">
+            <option value="">Select a location</option>
+            @foreach (var location in _locations)
+            {
+                <option value="@location.Name">@location.Name</option>
+            }
+        </InputSelect>
     </div>
 
     <div class="form-group">
         <label for="imageUrl">Image URL:</label>
         <InputText id="imageUrl" @bind-Value="_newItem.ImageUrl" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <InputNumber id="quantity" @bind-Value="_newItem.Quantity" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary mt-3">Add Item</button>

@@ -6,6 +6,8 @@ namespace Inventory.Data;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<InventoryItem> InventoryItems { get; set; }
+    public DbSet<Lookup> Lookups { get; set; } 
+    
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
