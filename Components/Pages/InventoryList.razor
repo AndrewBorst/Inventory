@@ -1,0 +1,34 @@
+@page "/inventory-list"
+@rendermode InteractiveServer
+@using Inventory.Data
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext DbContext
+
+<h3>Inventory List</h3>
+
+@if (inventoryItems == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <QuickGrid TGridItem="InventoryItem" Items="@inventoryItems"> 
+        <PropertyColumn Property="@(item => item.Id)" Sortable="true" Title="ID" />
+        <PropertyColumn Property="@(item => item.Name)" Sortable="true" Title="Name" />
+        <PropertyColumn Property="@(item => item.Description)" Sortable="true" Title="Description" />
+        <PropertyColumn Property="@(item => item.Location)" Sortable="true" Title="Location" />
+        <PropertyColumn Property="@(item => item.Quantity)" Sortable="true" Title="Quantity" />
+        <PropertyColumn Property="@(item => item.ImageUrl)" Sortable="true" Title="Image URL" />
+    </QuickGrid>
+}
+
+@code {
+    private IQueryable<InventoryItem>? inventoryItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var results = await DbContext.InventoryItems.ToListAsync();
+        inventoryItems = results.AsQueryable();
+    }
+}
